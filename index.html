@@ -92,9 +92,7 @@
 		<div class="page">
 			<section class="hero">
 				<h1>Pr0xy Launcher</h1>
-				<p class="lead">Open the launcher to browse the list. About:blank keeps the pr0xy hidden, and Direct Open opens like normal. <br> This link likely will last forever. Share all you want.
-<br> If you paid for this, you got scammed.
-<br> New links come out often I'll add them as they become available.</p>
+				<p class="lead">Open the launcher to browse the list. About:blank keeps the pr0xy hidden, and Direct Open opens like normal. <br> This link likely will last forever. Share all you want. <br> If you paid for this, you got scammed. <br> New links come out often I'll add them as they become available.</p>
 				<div class="actions">
 					<button class="primary" id="launchBtn" type="button">Open launcher</button>
 				</div>
@@ -104,53 +102,58 @@
 		<script>
 			(function () {
 				const proxies = [
-					{ name: "Intersteller", host: "intersteller.studyeurope.edu.eu.org", desc: "Familiar layout and a steady default choice." },
-					{ name: "Selenite", host: "selenite.studyeurope.edu.eu.org", desc: "Good for games and quick navigation.", featured: true },
-					{ name: "Doge", host: "doge.studyeurope.edu.eu.org", desc: "Strong all-around pick with the cleanest feel.", featured: true },
-					{ name: "Quasar", host: "quasar.studyeurope.edu.eu.org", desc: "Solid for browsing, games, and media." },
-					{ name: "55gms", host: "55gms.studyeurope.edu.eu.org", desc: "Simple and dependable overall." },
-					{ name: "Galaxy", host: "galaxy.studyeurope.edu.eu.org", desc: "OS-like look with a polished interface." },
-					{ name: "Glint", host: "glint.studyeurope.edu.eu.org", desc: "Lightweight and responsive." },
-					{ name: "Lunar", host: "lunar.studyeurope.edu.eu.org", desc: "Good for games and quick access." },
-					{ name: "UniUB", host: "uniub.studyeurope.edu.eu.org", desc: "Balanced option for general use." },
-					{ name: "Velara", host: "velara.studyeurope.edu.eu.org", desc: "Another decent pick for games." }
+					{ name: \"Ghost\", host: \"ghost.studyeurope.edu.eu.org\", desc: \"Best all around, made by us.\", featured: true, recommended: true },
+					{ name: \"Intersteller\", host: \"intersteller.studyeurope.edu.eu.org\", desc: \"Familiar layout and a steady default choice.\" },
+					{ name: \"Selenite\", host: \"selenite.studyeurope.edu.eu.org\", desc: \"Good for games and quick navigation.\", featured: true },
+					{ name: \"Doge\", host: \"doge.studyeurope.edu.eu.org\", desc: \"Strong all-around pick with the cleanest feel.\", featured: true },
+					{ name: \"Quasar\", host: \"quasar.studyeurope.edu.eu.org\", desc: \"Solid for browsing, games, and media.\" },
+					{ name: \"55gms\", host: \"55gms.studyeurope.edu.eu.org\", desc: \"Simple and dependable overall.\" },
+					{ name: \"Galaxy\", host: \"galaxy.studyeurope.edu.eu.org\", desc: \"OS-like look with a polished interface.\" },
+					{ name: \"Glint\", host: \"glint.studyeurope.edu.eu.org\", desc: \"Lightweight and responsive.\" },
+					{ name: \"Lunar\", host: \"lunar.studyeurope.edu.eu.org\", desc: \"Good for games and quick access.\" },
+					{ name: \"UniUB\", host: \"uniub.studyeurope.edu.eu.org\", desc: \"Balanced option for general use.\" },
+					{ name: \"Velara\", host: \"velara.studyeurope.edu.eu.org\", desc: \"Another decent pick for games.\" }
 				];
 
-				const launchBtn = document.getElementById("launchBtn");
+				const launchBtn = document.getElementById(\"launchBtn\");
 
 				function buildLauncherHTML() {
 					const cards = proxies.map((proxy, index) => {
-						const directUrl = "https://" + proxy.host;
-						const searchText = (proxy.name + " " + proxy.desc).toLowerCase();
-						const directOnly = ["glint", "lunar", "uniub"].includes(proxy.name.toLowerCase());
+						const directUrl = \"https://\" + proxy.host;
+						const searchText = (proxy.name + \" \" + proxy.desc).toLowerCase();
+						const directOnly = [\"glint\", \"lunar\", \"uniub\"].includes(proxy.name.toLowerCase());
+						const isRecommended = proxy.recommended;
 						const actionButtons = directOnly
-							? ['<button class="card-btn" type="button" data-action="direct" data-url="' + directUrl + '">Direct Open</button>'].join("")
+							? ['<button class=\"card-btn\" type=\"button\" data-action=\"direct\" data-url=\"' + directUrl + '\">Direct Open</button>'].join(\"\")
 							: [
-								'<button class="card-btn" type="button" data-action="blank" data-url="' + directUrl + '">About:blank</button>',
-								'<button class="card-btn secondary-action" type="button" data-action="direct" data-url="' + directUrl + '">Direct Open</button>'
-							].join("");
+								'<button class=\"card-btn\" type=\"button\" data-action=\"blank\" data-url=\"' + directUrl + '\">About:blank</button>',
+								'<button class=\"card-btn secondary-action\" type=\"button\" data-action=\"direct\" data-url=\"' + directUrl + '\">Direct Open</button>'
+							].join(\"\");
+						const cardClass = isRecommended ? ' class=\"proxy-card featured-card\"' : ' class=\"proxy-card\"';
+						const badge = isRecommended ? '<div class=\"badge\">Recommended</div>' : '';
 						return [
-							'<article class="proxy-card" data-search="' + searchText + '">',
-							'<div class="card-head">',
+							'<article' + cardClass + ' data-search=\"' + searchText + '\">',
+							'<div class=\"card-head\">',
 							'<div>',
-							'<div class="card-title">' + proxy.name + '</div>',
-							'<div class="card-meta">' + String(index + 1).padStart(2, "0") + '</div>',
+							'<div class=\"card-title\">' + proxy.name + '</div>',
+							'<div class=\"card-meta\">' + String(index + 1).padStart(2, \"0\") + '</div>',
 							'</div>',
+							badge,
 							'</div>',
 							'<p>' + proxy.desc + '</p>',
-							'<div class="card-actions">',
+							'<div class=\"card-actions\">',
 							actionButtons,
 							'</div>',
 							'</article>'
-						].join("");
-					}).join("");
+						].join(\"\");
+					}).join(\"\");
 
 					return `
 						<!DOCTYPE html>
-						<html lang="en">
+						<html lang=\"en\">
 						<head>
-							<meta charset="UTF-8" />
-							<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+							<meta charset=\"UTF-8\" />
+							<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
 							<title>Proxy Launcher</title>
 							<style>
 								:root { color-scheme: dark; --bg: #000; --panel: #0b0b0b; --panel-alt: #111; --border: #2a2a2a; --text: #fff; --muted: #b7b7b7; --shadow: 0 18px 42px rgba(0,0,0,.55); }
@@ -168,13 +171,18 @@
 								.search { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--text); }
 								.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; grid-auto-rows: 1fr; align-items: stretch; }
 								.proxy-card { display: flex; flex-direction: column; gap: 16px; height: 100%; min-height: 240px; padding: 22px; background: var(--panel); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); }
+								.featured-card { grid-column: span 2; min-height: 360px; }
 								.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 								.card-title { margin: 0; font-size: 1.45rem; line-height: 1.05; letter-spacing: -0.03em; position: relative; top: -2px; }
+								.featured-card .card-title { font-size: 2rem; }
 								.card-meta { margin-top: 4px; color: var(--muted); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; }
 								.badge { display: inline-flex; align-items: center; justify-content: center; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--text); font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
 								.proxy-card p { margin: 0; color: var(--muted); line-height: 1.6; min-height: 4.8em; }
+								.featured-card p { font-size: 1.1rem; min-height: auto; }
 								.card-actions { display: grid; gap: 10px; margin-top: auto; }
+								.featured-card .card-actions { grid-template-columns: 1fr 1fr; }
 								.card-btn { width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.1; background: #fff; color: #000; border-color: #fff; font-weight: 700; }
+								.featured-card .card-btn { min-height: 56px; font-size: 1.05rem; }
 								.card-btn.secondary-action { background: var(--panel-alt); color: var(--text); border-color: var(--border); }
 								.card-btn:hover { transform: translateY(-1px); }
 								.help-btn { position: fixed; top: 18px; right: 18px; width: 46px; height: 46px; display: grid; place-items: center; background: var(--panel-alt); color: var(--text); border: 1px solid var(--border); border-radius: 50%; box-shadow: var(--shadow); cursor: pointer; font-size: 1.2rem; font-weight: 800; line-height: 1; }
@@ -191,105 +199,103 @@
 									.topbar { flex-direction: column; align-items: stretch; }
 									.search-group { width: 100%; }
 									.grid { grid-template-columns: 1fr; }
+									.featured-card { grid-column: span 1; grid-row: span 1; }
+									.featured-card .card-actions { grid-template-columns: 1fr; }
 									.card-actions { grid-template-columns: 1fr; }
 								}
 							</style>
 						</head>
 						<body>
-							<button class="help-btn" type="button" id="helpBtn" aria-label="Help">?</button>
-							<main class="launcher-shell">
-								<div class="launcher-wrap">
-									<section class="topbar">
-										<div class="title">
+							<button class=\"help-btn\" type=\"button\" id=\"helpBtn\" aria-label=\"Help\">?</button>
+							<main class=\"launcher-shell\">
+								<div class=\"launcher-wrap\">
+									<section class=\"topbar\">
+										<div class=\"title\">
 											<h1>Pr0xy Launcher</h1>
 										</div>
-											<div class="search-group">
-												<input id="search" class="search" type="search" placeholder="Search proxies" autocomplete="off" aria-label="Search proxies" />
+											<div class=\"search-group\">
+												<input id=\"search\" class=\"search\" type=\"search\" placeholder=\"Search proxies\" autocomplete=\"off\" aria-label=\"Search proxies\" />
 											</div>
 									</section>
-									<section class="grid" id="grid">${cards}</section>
+									<section class=\"grid\" id=\"grid\">${cards}</section>
 								</div>
 							</main>
-							<div class="modal" id="helpModal" aria-hidden="true">
-								<div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
+							<div class=\"modal\" id=\"helpModal\" aria-hidden=\"true\">
+								<div class=\"modal-card\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Help\">
 									<h3>Quick help</h3>
 									<p>Pick a card, then choose a launch mode.</p>
 									<ul>
-										<li>Games: Selenite is suggested, try them all.</li>
-										<li>Movies: Use "cineby.sc" on one of the links.</li>
-										<li>Minecraft: Launch Minecraft from the launcher and use an unblocked server.</li>
+										<li>Games: Ghost is suggested (5000+ games), try them all.</li>
+										<li>Movies: Use \"cineby.sc\" on one of the links.</li>
+										<li>Minecraft: Launch Minecraft from resent.surge.sh and use an unblocked server.</li>
 										<li>Better games: Use GeForce Now for real PC games and Crazygames for extra games.</li>
 									</ul>
-									<button class="close-btn" type="button" id="closeHelp">Close</button>
+									<button class=\"close-btn\" type=\"button\" id=\"closeHelp\">Close</button>
 								</div>
 							</div>
 							${'<scr' + 'ipt>'}
-								const search = document.getElementById("search");
-								const grid = document.getElementById("grid");
-								const helpBtn = document.getElementById("helpBtn");
-								const helpModal = document.getElementById("helpModal");
-								const closeHelp = document.getElementById("closeHelp");
+								const search = document.getElementById(\"search\");
+								const grid = document.getElementById(\"grid\");
+								const helpBtn = document.getElementById(\"helpBtn\");
+								const helpModal = document.getElementById(\"helpModal\");
+								const closeHelp = document.getElementById(\"closeHelp\");
 
 								function openAboutBlank(url) {
-									const popup = window.open("about:blank", "_blank");
+									const popup = window.open(\"about:blank\", \"_blank\");
 									if (!popup) return;
-									popup.document.write('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Pr0xy</title><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000;}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;}</style></head><body><iframe src="' + url + '" referrerpolicy="no-referrer"></iframe></body></html>');
+									popup.document.write('<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><title>Pr0xy</title><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000;}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;}</style></head><body><iframe src=\"' + url + '\" referrerpolicy=\"no-referrer\"></iframe></body></html>');
 									popup.document.close();
 								}
 
 								function showHelp() {
-									helpModal.classList.add("is-open");
-									helpModal.setAttribute("aria-hidden", "false");
+									helpModal.classList.add(\"is-open\");
+									helpModal.setAttribute(\"aria-hidden\", \"false\");
 								}
 
 								function hideHelp() {
-									helpModal.classList.remove("is-open");
-									helpModal.setAttribute("aria-hidden", "true");
+									helpModal.classList.remove(\"is-open\");
+									helpModal.setAttribute(\"aria-hidden\", \"true\");
 								}
 
-								helpBtn.addEventListener("click", showHelp);
-								closeHelp.addEventListener("click", hideHelp);
-								helpModal.addEventListener("click", (event) => {
-									if (event.target === helpModal) hideHelp();
-								});
-								document.addEventListener("keydown", (event) => {
-									if (event.key === "Escape") hideHelp();
-								});
+								helpBtn.addEventListener(\"click\", showHelp);
+								closeHelp.addEventListener(\"click\", hideHelp);
+								helpModal.addEventListener(\"click\", (event) => { if (event.target === helpModal) hideHelp(); });
+								document.addEventListener(\"keydown\", (event) => { if (event.key === \"Escape\") hideHelp(); });
 
-								search.addEventListener("input", () => {
+								search.addEventListener(\"input\", () => {
 									const query = search.value.trim().toLowerCase();
-									grid.querySelectorAll(".proxy-card").forEach((card) => {
-										card.style.display = card.dataset.search.includes(query) ? "flex" : "none";
+									grid.querySelectorAll(\".proxy-card\").forEach((card) => {
+										card.style.display = card.dataset.search.includes(query) ? \"flex\" : \"none\";
 									});
 								});
 
-								grid.addEventListener("click", (event) => {
-									const button = event.target.closest("button[data-url]");
+								grid.addEventListener(\"click\", (event) => {
+									const button = event.target.closest(\"button[data-url]\");
 									if (!button) return;
 									const url = button.dataset.url;
-									if (button.dataset.action === "blank") {
+									if (button.dataset.action === \"blank\") {
 										openAboutBlank(url);
 										return;
 									}
-									window.open(url, "_blank", "noopener");
+									window.open(url, \"_blank\", \"noopener\");
 								});
 							${'</scr' + 'ipt>'}
 						</body>
 						</html>`;
-					};
+				}
 
 				function launchLauncher() {
-					const popup = window.open("about:blank", "_blank");
+					const popup = window.open(\"about:blank\", \"_blank\");
 					if (!popup) {
 						return;
 					}
 
 					popup.document.write(buildLauncherHTML());
 					popup.document.close();
-					window.location.href = "https://google.com";
+					window.location.href = \"https://google.com\";
 				}
 
-				launchBtn.addEventListener("click", launchLauncher);
+				launchBtn.addEventListener(\"click\", launchLauncher);
 			})();
 		</script>
 	</body>
