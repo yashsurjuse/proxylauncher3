@@ -104,6 +104,7 @@
 		<script>
 			(function () {
 				const proxies = [
+					{ name: "Ghost", host: "ghostkeepthisasecret.undoanarchy.rocks", desc: "Best all around, made by us.", featured: true, recommended: true },
 					{ name: "Intersteller", host: "intersteller.studyeurope.edu.eu.org", desc: "Familiar layout and a steady default choice." },
 					{ name: "Selenite", host: "selenite.studyeurope.edu.eu.org", desc: "Good for games and quick navigation.", featured: true },
 					{ name: "Ghost", host: "ghost.studyeurope.edu.eu.org", desc: "Strong all-around pick with the cleanest feel.", featured: true },
@@ -123,19 +124,23 @@
 						const directUrl = "https://" + proxy.host;
 						const searchText = (proxy.name + " " + proxy.desc).toLowerCase();
 						const directOnly = ["glint", "lunar", "uniub"].includes(proxy.name.toLowerCase());
+						const isRecommended = proxy.recommended;
 						const actionButtons = directOnly
 							? ['<button class="card-btn" type="button" data-action="direct" data-url="' + directUrl + '">Direct Open</button>'].join("")
 							: [
 								'<button class="card-btn" type="button" data-action="blank" data-url="' + directUrl + '">About:blank</button>',
 								'<button class="card-btn secondary-action" type="button" data-action="direct" data-url="' + directUrl + '">Direct Open</button>'
 							].join("");
+						const cardClass = isRecommended ? ' class="proxy-card featured-card"' : ' class="proxy-card"';
+						const badge = isRecommended ? '<div class="badge">Recommended</div>' : '';
 						return [
-							'<article class="proxy-card" data-search="' + searchText + '">',
+							'<article' + cardClass + ' data-search="' + searchText + '">',
 							'<div class="card-head">',
 							'<div>',
 							'<div class="card-title">' + proxy.name + '</div>',
 							'<div class="card-meta">' + String(index + 1).padStart(2, "0") + '</div>',
 							'</div>',
+							badge,
 							'</div>',
 							'<p>' + proxy.desc + '</p>',
 							'<div class="card-actions">',
@@ -168,13 +173,18 @@
 								.search { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--text); }
 								.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; grid-auto-rows: 1fr; align-items: stretch; }
 								.proxy-card { display: flex; flex-direction: column; gap: 16px; height: 100%; min-height: 240px; padding: 22px; background: var(--panel); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); }
+								.featured-card { grid-column: span 2; min-height: 360px; }
 								.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 								.card-title { margin: 0; font-size: 1.45rem; line-height: 1.05; letter-spacing: -0.03em; position: relative; top: -2px; }
+								.featured-card .card-title { font-size: 2rem; }
 								.card-meta { margin-top: 4px; color: var(--muted); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; }
 								.badge { display: inline-flex; align-items: center; justify-content: center; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--text); font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
 								.proxy-card p { margin: 0; color: var(--muted); line-height: 1.6; min-height: 4.8em; }
+								.featured-card p { font-size: 1.1rem; min-height: auto; }
 								.card-actions { display: grid; gap: 10px; margin-top: auto; }
+								.featured-card .card-actions { grid-template-columns: 1fr 1fr; }
 								.card-btn { width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.1; background: #fff; color: #000; border-color: #fff; font-weight: 700; }
+								.featured-card .card-btn { min-height: 56px; font-size: 1.05rem; }
 								.card-btn.secondary-action { background: var(--panel-alt); color: var(--text); border-color: var(--border); }
 								.card-btn:hover { transform: translateY(-1px); }
 								.help-btn { position: fixed; top: 18px; right: 18px; width: 46px; height: 46px; display: grid; place-items: center; background: var(--panel-alt); color: var(--text); border: 1px solid var(--border); border-radius: 50%; box-shadow: var(--shadow); cursor: pointer; font-size: 1.2rem; font-weight: 800; line-height: 1; }
@@ -191,6 +201,8 @@
 									.topbar { flex-direction: column; align-items: stretch; }
 									.search-group { width: 100%; }
 									.grid { grid-template-columns: 1fr; }
+									.featured-card { grid-column: span 1; grid-row: span 1; }
+									.featured-card .card-actions { grid-template-columns: 1fr; }
 									.card-actions { grid-template-columns: 1fr; }
 								}
 							</style>
@@ -215,9 +227,9 @@
 									<h3>Quick help</h3>
 									<p>Pick a card, then choose a launch mode.</p>
 									<ul>
-										<li>Games: Selenite is suggested, try them all.</li>
+											<li>Games: Ghost is suggested (5000+ games), try them all.</li>
 										<li>Movies: Use "cineby.sc" on one of the links.</li>
-										<li>Minecraft: Launch Minecraft from the launcher and use an unblocked server.</li>
+											<li>Minecraft: Launch Minecraft from resent.surge.sh and use an unblocked server.</li>
 										<li>Better games: Use GeForce Now for real PC games and Crazygames for extra games.</li>
 									</ul>
 									<button class="close-btn" type="button" id="closeHelp">Close</button>
